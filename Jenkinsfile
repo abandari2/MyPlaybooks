@@ -42,7 +42,7 @@ pipeline {
                 }
                 stage('Merge verified pull requests'){
                     steps {
-                        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'pdxc-jenkins', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Jenkins', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
                             sh './scripts/merge_pull_requests.sh'
                         }
                     }
