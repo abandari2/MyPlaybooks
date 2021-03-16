@@ -13,7 +13,7 @@
   tasks: 
    - name: Add users to group {{ ad_group_name }}
      win_shell: | 
-       $domain_password = ([Console]::In.ReadToEnd()).Trim() #Set the contents of stdin to $domain password
+       $domain_password = ([Console]::In.ReadToEnd()).Trim() 
        $domain_password = ConvertTo-SecureString "$domain_password" -AsPlainText -Force
        $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "{{ domain_username }}", $domain_password
        $domainlist = Get-ADForest -Identity {{ ad_domain }} -Credential $credential
