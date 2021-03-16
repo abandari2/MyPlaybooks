@@ -21,7 +21,6 @@
          $search = New-Object -TypeName System.DirectoryServices.DirectorySearcher
          $search.Filter = "(&(objectCategory=Person)(UserPrincipalName={{ item }}))"
          $domainDN = 'LDAP://DC=' + $domain.replace('.',',DC=')
-      #Create domain search object that includes the credentials needed to search AD
          $domainSearch = New-Object -TypeName System.DirectoryServices.DirectoryEntry -ArgumentList $domainDN ,$($credential.UserName),$($credential.GetNetworkCredential().password)
          $search.SearchRoot = $domainSearch
          $result = $search.FindAll()
@@ -39,7 +38,6 @@
        }
        $group_members = Get-ADGroup -Identity "CN={{ ad_group_name }},{{ ad_group_ou }}" -Credential $credential -Server "{{ domain_controller_Name }}.{{ ad_domain }}" -Properties member
        If ($group_members.member -Contains $result.Properties.distinguishedname[0]) {
-      #user is already a member of the group
          Write-Host "User {{ item }} is already a member of the group {{ ad_group_name }}"
        } else {
          $user = Get-ADUser -Identity $result.Properties.distinguishedname[0] -Server $domain -Credential $credential
